@@ -1,5 +1,6 @@
 using System;
 
+namespace RailwaySystem;
 public class RailwayOperations
 {
     public string CalculateArrivalTime(string departureTime, int travelMinutes)
@@ -28,4 +29,26 @@ public class RailwayOperations
 
         return baseCost * overloadCoefficient;
     }
+
+    // доп метод для расчета чистого времени пути
+    public string CalculateNetTravelTime(int fullTravelTimeMinutes, int stopsMinutes)
+    {
+        var netTravelTime = fullTravelTimeMinutes - stopsMinutes;
+
+        // Разделение на часы и минуты
+        int hours = netTravelTime / 60;
+        int minutes = netTravelTime % 60;
+
+        if (fullTravelTimeMinutes < stopsMinutes) { throw new InvalidOperationException("The result cannot be negative"); }
+        else if (fullTravelTimeMinutes < 0 || stopsMinutes < 0) {throw new ArgumentOutOfRangeException("Time cannot be negative");}
+
+        // Форматирование результата
+        if (hours > 0 && minutes > 0)
+            return $"{hours} ч {minutes} мин";
+        else if (hours > 0)
+            return $"{hours} ч";
+        else
+            return $"{minutes} мин";
+    }
 }
+
